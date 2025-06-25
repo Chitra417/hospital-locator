@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nearest Hospital Finder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 100px; }
+    button { padding: 15px 25px; font-size: 18px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Find Nearest Poisoning Treatment Hospital</h2>
+  <button onclick="findNearest()">Find Nearest Hospital</button>
+
+  <script>
+    const hospitals = [
+      { name: "IGGGH&PGI", lat: 11.93061, lng: 79.83362 },
+      { name: "IGMC&RI", lat: 11.94106, lng: 79.79596 },
+      { name: "JIPMER", lat: 11.95339, lng: 79.79651 },
+      { name: "PIMS", lat: 12.04639761, lng: 79.8551899 },
+      { name: "SVMCH&RC", lat: 11.90393044, lng: 79.70162801 },
+      { name: "SMVMCH", lat: 11.92165852, lng: 79.628235 },
+      { name: "SLIMS", lat: 11.93863674, lng: 79.73606678 }
+    ];
+
+    function haversine(lat1, lon1, lat2, lon2) {
+      const toRad = x => x * Math.PI / 180;
+      const R = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function findNearest() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+
+          let nearest = null;
+          let minDist = Infinity;
+
+          hospitals.forEach(h => {
+            const dist = haversine(userLat, userLng, h.lat, h.lng);
+            if (dist < minDist) {
+              minDist = dist;
+              nearest = h;
+            }
+          });
+
+          const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${nearest.lat},${nearest.lng}&travelmode=driving`;
+          window.location.href = mapsUrl;
+
+        }, () => {
+          alert("Location access denied.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
+</body>
+</html>
