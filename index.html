@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Nearest Hospital Finder</title>
+  <title>Nearest Hospital Finder - Poisoning</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: Arial; text-align: center; margin-top: 100px; }
@@ -9,18 +9,22 @@
   </style>
 </head>
 <body>
-  <h2>Find Nearest Poisoning Treatment Hospital</h2>
+  <h2>Find Nearest Hospital Treating - Poisoning</h2>
   <button onclick="findNearest()">Find Nearest Hospital</button>
 
   <script>
     const hospitals = [
-      { name: "IGGGH&PGI", lat: 11.9293, lng: 79.8333 },
-      { name: "IGMC&RI", lat: 11.94106, lng: 79.79596 },
-      { name: "JIPMER", lat: 11.95339, lng: 79.79651 },
-      { name: "PIMS", lat: 12.04639761, lng: 79.8551899 },
+      { name: "IGMC", lat: 11.9404, lng: 79.7973 },
+      { name: "JIPMER", lat: 11.9503, lng: 79.7997 },
+      { name: "IGGGH & PGI", lat: 11.9316, lng: 79.8323 },
+      { name: "PIMS", lat: 12.04639761, lng: 79.85529 },
       { name: "SVMCH&RC", lat: 11.90393044, lng: 79.70162801 },
       { name: "SMVMCH", lat: 11.92165852, lng: 79.628235 },
-      { name: "SLIMS", lat: 11.93863674, lng: 79.73606678 }
+      { name: "SLIMS", lat: 11.93863674, lng: 79.73606678 },
+      { name: "AVMC", lat: 11.83145, lng: 79.77996 },
+      { name: "MGMC", lat: 11.8122, lng: 79.77844 },
+      { name: "CHC Karikalampakkam", lat: 11.86529, lng: 79.74831 },
+      { name: "CHC Mannadipet", lat: 11.98352, lng: 79.62222 }
     ];
 
     function haversine(lat1, lon1, lat2, lon2) {
@@ -28,10 +32,10 @@
       const R = 6371;
       const dLat = toRad(lat2 - lat1);
       const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return R * c;
     }
 
